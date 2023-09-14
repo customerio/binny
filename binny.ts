@@ -19,7 +19,7 @@ interface Tool {
   name: string;
   version: string;
   downloadUrl: string;
-  commandToRun: string;
+  pathToBinaryInsideZip: string;
 
   [propName: string]: string // added to allow the interface to work with stringFormat(). Fixes error, "Index signature for type 'string' is missing in type 'Tool'"
 }
@@ -33,10 +33,10 @@ const nameOfToolToRun = Deno.args[0] // get the name of the tool to run from the
 const toolsUsedInProject: Tool[] = parseYaml(Deno.readTextFileSync("binny-tools.yml")) as Tool[]; // Read binny-tools.yml file which is used to define what tools are used in this project.
 const tool: Tool = toolsUsedInProject.find(tool => tool.name === nameOfToolToRun)!
 
-await assertToolInstalled()
-await runCommand()
+const rootPathToTool = await assertToolInstalled()
+await runCommand(rootPathToTool)
 
-async function assertToolInstalled() {
+async function assertToolInstalled(): Promise<string> {
   Deno.mkdirSync("./tools", { recursive: true }); // make the tools directory in case it does not exist. This is where all the tools will be installed
 
   // This is the file path where we expect the tool to be installed. Each tool has it's own unique directory within the tools/ directory. It's also important to version the directory so that 
@@ -46,7 +46,7 @@ async function assertToolInstalled() {
   // Check if we have already installed the tool. 
   if (doesFileExist(toolInstallLocation, { isDirectory: true })) {
     // Tool exists.
-    return
+    return toolInstallLocation
   }
 
   // Tool does not exist so it must be installed. 
@@ -64,10 +64,13 @@ async function assertToolInstalled() {
   await unzip(downloadedZipFilePath, toolInstallLocation);
 
   console.log(`Downloaded ${tool.name}, version ${tool.version}`);
+
+  return toolInstallLocation
 }
 
-async function runCommand() {
-  const command = stringFormat(tool.commandToRun, tool) // the command to run is dynamic. Use string format to inject variables into the command string to get valid command string.
+// rootPathToTool - example: ./tools/swiftlint_0.39.2 where the tool will be located inside of this given directory. 
+async function runCommand(rootPathToTool: string) {
+  const command = `${rootPathToTool}/${tool.commandToRun}` // example result: ./tools/sourcery_0.39.2/bin/sourcery which is the full path to the binary to execute 
   const argsToSendToCommand = Deno.args.slice(1); // remove the first argument as it is the name of the tool to run. But we allow passing other args to the command. 
 
   await new Deno.Command(command, { args: argsToSendToCommand, stdout: "inherit", stderr: "inherit" }).output();
