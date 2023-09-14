@@ -1,0 +1,38 @@
+name: Deploy a binary for team to use 
+
+on: 
+  push: 
+    branches: [main]
+
+# Workflow to compile a binary of the script and upload it to a github release. This allows team members to download the binary and run it on their 
+# development machines without needing to install deno or any other language. 
+# 
+# Deployment strategy for this project is to only maintain a "latest" release version. Why? 
+# 1. This tool is currently used internally by our team and therefore, no need to maintain multiple versions. 
+# 2. Deno compiled binary files can be larger in size, no use keeping files in the repo that will probably not be used. 
+jobs:
+  update-latest-binary: 
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # to be able to push git tags and create github releases
+    steps: 
+      - uses: actions/checkout@v4
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: v1.x
+      - name: Compile script into a macOS m1 binary 
+        run: |
+          deno compile --allow-all --target aarch64-apple-darwin binny.ts
+          mv binny binny-macos-m1
+
+      - name: Create a git tag 'latest' and a GitHub release 'latest' to attach compiled binary to. 
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "binny-macos-m1" # upload this binary file to the release so team members can easily download it. 
+          tag: "latest" # create a git tag 'latest'
+          commit: "main" # create a git tag 'latest' from the latest commit on the main branch 
+          allowUpdates: true # if 'latest' release already exists, update it. 
+          artifactErrorsFailBuild: true # fail the github action if there is an error trying to upload artifacts. The main point of this github release is to upload the binary, so if that fails, we should fail the build.
+          body: "Latest binary for macOS m1" # body of the github release. 
+          makeLatest: true # make this release the latest release.          
+          replacesArtifacts: true # replace the artifacts in the existing github release, if any exists. 
