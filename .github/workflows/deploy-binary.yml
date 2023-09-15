@@ -20,19 +20,25 @@ jobs:
       - uses: denoland/setup-deno@v1
         with:
           deno-version: v1.x
+
       - name: Compile script into a macOS m1 binary 
         run: |
           deno compile --allow-all --target aarch64-apple-darwin binny.ts
           mv binny binny-macos-m1
+      
+      - name: Compile script into a Linux binary 
+        run: |
+          deno compile --allow-all --target x86_64-unknown-linux-gnu binny.ts
+          mv binny binny-linux-x86_64
 
       - name: Create a git tag 'latest' and a GitHub release 'latest' to attach compiled binary to. 
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "binny-macos-m1" # upload this binary file to the release so team members can easily download it. 
+          artifacts: "binny-macos-m1,binny-linux-x86_64" # upload these binary files to the release so team members can easily download it. 
           tag: "latest" # create a git tag 'latest'
           commit: "main" # create a git tag 'latest' from the latest commit on the main branch 
           allowUpdates: true # if 'latest' release already exists, update it. 
           artifactErrorsFailBuild: true # fail the github action if there is an error trying to upload artifacts. The main point of this github release is to upload the binary, so if that fails, we should fail the build.
-          body: "Latest binary for macOS m1" # body of the github release. 
+          body: "Compiled binary files are attached for convenient download and executing in your development machine and CI server" # body of the github release. 
           makeLatest: true # make this release the latest release.          
           replacesArtifacts: true # replace the artifacts in the existing github release, if any exists. 
