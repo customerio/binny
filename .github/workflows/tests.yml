@@ -1,0 +1,14 @@
+name: Tests 
+
+on: [pull_request]
+
+jobs: 
+  test-script-can-compile: 
+    runs-on: ubuntu-latest
+    steps: 
+      - uses: actions/checkout@v4
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: v1.x
+      - name: Compile script into a macOS m1 binary 
+        run: deno compile --allow-all --target aarch64-apple-darwin binny.ts
