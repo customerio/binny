@@ -1,0 +1,5 @@
+# Config file used for testing the tool. Create your own config file for your project and the tools that it needs. 
+- name: sourcery
+  version: 2.0.3
+  downloadUrl: https://github.com/krzysztofzablocki/Sourcery/releases/download/{version}/sourcery-{version}.zip
+  pathToBinaryInsideZip: "bin/sourcery"
