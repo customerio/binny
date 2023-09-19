@@ -16,6 +16,7 @@ jobs:
     permissions:
       contents: write # to be able to push git tags and create github releases
     steps: 
+      - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-dev-environment
     
       - name: Compile script into a macOS m1 binary 
