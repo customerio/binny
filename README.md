@@ -16,7 +16,7 @@ Then, [assuming a configuration file already exists in the project](#configure-t
 
 Let's say that you're building a Swift project. For this project, you may use tools such as [`swiftlint`](https://github.com/realm/SwiftLint/) to lint the code in the project. It's recommended to make sure that everyone on the team is using the same version of `swiftlint` for the code base. Bonus: If the version of `swiftlint` is version controlled so a specific version is associated with each git commit. 
 
-To configure `binny` to install and run `swiftlint`, create a file called `binny-tools.yml` in the root of the project. The file should look like this: 
+To set up `binny` for installing and running `swiftlint`, create a file called `binny-tools.yml` in the root of the project (if the file has not already been added). The contents of the file should be as follows:
 
 ```yaml
 # name - the name of the tool when being called by binny. This can be whatever you want it to be. You could call it `lint` so you could run `./binny lint`, for example. 
