@@ -43,5 +43,8 @@ To set up `binny` for installing and running `swiftlint`, create a file called `
 
 The script `binny.ts` is written in Typescript and run with [Deno](https://deno.com/). You must have Deno installed on your machine to run the script (`brew install deno`). VSCode with the Deno plugin is recommended for development.
 
-If you want to test the script, you do not need to compile it into a binary. You can run: `deno run --allow-all binny.ts <args>` to run the script. 
+The easiest way to test the code you are developing is with the automated test suite. Run `deno test --allow-all` to run all tests. This includes e2e tests that runs as close to the real thing as possible.
+
+If you prefer to run the tool yourself, you can run `deno run --allow-all binny.ts <command>` to run the tool. Example: `deno run --allow-all binny.ts sourcery --version` to run the command `sourcery --version`. Note: you must have `sourcery` defined in `binny-tools.yml` before running this command.
+
 
