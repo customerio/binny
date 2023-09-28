@@ -7,8 +7,11 @@ Assert that everyone (including CI) are running the same development tools, on t
 Run this command to download the latest macOS M1 binary to the current directory: 
 
 ```
-curl --output binny https://github.com/customerio/binny/releases/download/latest/binny-macos-m1
+curl -L --output binny https://github.com/customerio/binny/releases/download/latest/binny-macos-m1
 ```
+> Note: This command will download a binary file into the current directory you're in. Run this command in the root directory of a project you want to use binny with. 
+
+Deno compiled binaries [cannot be signed](https://github.com/denoland/deno/issues/11154) at this time. Therefore, you have to manually give binny permission to execute on your computer. The first time you will run `./binny` after downloading, you will get an error from macOS blocking the execution. [Follow the instructions](https://support.apple.com/en-ca/guide/mac-help/mh40616/mac) to *Open a Mac app from an unidentified developer* and then run `./binny` again. 
 
 Then, [assuming a configuration file already exists in the project](#configure-the-development-tools-for-a-project), use binny to run CLI tools. For example, if you want to run `swiftlint --strict`, run the command: `./binny swiftlint --strict`.
 
