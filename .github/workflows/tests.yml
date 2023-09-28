@@ -3,12 +3,18 @@ name: Tests
 on: [pull_request]
 
 jobs: 
+  run-automated-tests:
+    runs-on: ubuntu-latest
+    steps: 
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-dev-environment
+      - name: Run automated tests 
+        run: deno test
+
   test-script-can-compile: 
     runs-on: ubuntu-latest
     steps: 
       - uses: actions/checkout@v4
-      - uses: denoland/setup-deno@v1
-        with:
-          deno-version: v1.x
+      - uses: ./.github/actions/setup-dev-environment
       - name: Compile script into a macOS m1 binary 
         run: deno compile --allow-all --target aarch64-apple-darwin binny.ts
