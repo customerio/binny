@@ -6,14 +6,14 @@ Deno.test("Tool, expect constructor to populate properties with expected values"
     name: "swiftlint",
     version: "0.39.2",
     relativeInstallLocationPath: "./tools/swiftlint_0.39.2",
-    downloadZipUrl: "https://github.com/krzysztofzablocki/Sourcery/releases/download/0.39.2/sourcery-0.39.2.zip",
+    downloadZipUrl: "https://github.com/realm/SwiftLint/releases/download/0.39.2/portable_swiftlint.zip",
     commandToExecuteBinary: "./tools/swiftlint_0.39.2/bin/swiftlint",
   }
 
   const actual: Tool = new Tool({
     name: "swiftlint",
     version: "0.39.2",
-    downloadUrl: "https://github.com/krzysztofzablocki/Sourcery/releases/download/{version}/sourcery-{version}.zip",
+    downloadUrl: "https://github.com/realm/SwiftLint/releases/download/{version}/portable_swiftlint.zip",
     pathToBinaryInsideZip: "bin/swiftlint",
   })
   
