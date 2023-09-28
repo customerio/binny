@@ -1,0 +1,5 @@
+# Config file used for testing the tool. Create your own config file for your project and the tools that it needs. 
+- name: swiftlint
+  version: 0.52.4
+  downloadUrl: https://github.com/realm/SwiftLint/releases/download/{version}/portable_swiftlint.zip
+  pathToBinaryInsideZip: "swiftlint"
