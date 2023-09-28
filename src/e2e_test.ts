@@ -9,9 +9,9 @@ Deno.test("run binny with a real tool, expect it runs command", async () => {
     // ignore error, tools directory already removed
   }
   
-  const expectedStdout = "2.0.3\n"
+  const expectedStdout = "0.52.4\n"
 
-  const actualStdout = await runTool("sourcery", ["--version"], "binny-tools.yml")  
+  const actualStdout = await runTool("swiftlint", ["--version"], "binny-tools.yml")  
 
   assertEquals(actualStdout, expectedStdout)
 })

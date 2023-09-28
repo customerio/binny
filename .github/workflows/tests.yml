@@ -4,7 +4,8 @@ on: [pull_request]
 
 jobs: 
   run-automated-tests:
-    runs-on: ubuntu-latest
+    # Because our team uses macos for our development environment, we run e2e tests also on a mac to feel more confident it will work for us. 
+    runs-on: macos-latest 
     steps: 
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-dev-environment
@@ -21,4 +22,4 @@ jobs:
           deno compile --allow-all binny.ts
           chmod +x binny
       - name: Run the script and expect not to error 
-        run: ./binny sourcery --version # expect command to run and not throw error 
+        run: ./binny swiftlint --version # expect command to run and not throw error 
