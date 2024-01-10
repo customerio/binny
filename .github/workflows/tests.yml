@@ -13,7 +13,7 @@ jobs:
         run: deno test --allow-all # provide all permissions to the test script because it modifies file system to prepare for e2e tests. 
 
   test-script-compiles-and-runs: 
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps: 
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-dev-environment

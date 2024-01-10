@@ -23,6 +23,11 @@ jobs:
         run: |
           deno compile --allow-all --target aarch64-apple-darwin binny.ts
           mv binny binny-macos-m1
+
+      - name: Compile script into a macOS x64 binary 
+        run: |
+          deno compile --allow-all --target x86_64-apple-darwin binny.ts
+          mv binny binny-macos-x86_64
       
       - name: Compile script into a Linux binary 
         run: |
@@ -32,7 +37,7 @@ jobs:
       - name: Create a git tag 'latest' and a GitHub release 'latest' to attach compiled binary to. 
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "binny-macos-m1,binny-linux-x86_64" # upload these binary files to the release so team members can easily download it. 
+          artifacts: "binny-macos-m1,binny-linux-x86_64,binny-macos-x86_64" # upload these binary files to the release so team members can easily download it. 
           tag: "latest" # create a git tag 'latest'
           commit: "main" # create a git tag 'latest' from the latest commit on the main branch 
           allowUpdates: true # if 'latest' release already exists, update it. 
