@@ -15,3 +15,16 @@ Deno.test("run binny with a real tool, expect it runs command", async () => {
 
   assertEquals(actualStdout, expectedStdout)
 })
+
+Deno.test("binny should fail if the command that it executes also fails", async () => {
+  let didThrowError = false
+
+  // We want binny to successfully run the swiftlint binary, but the swiftlint binary should fail when it executes. 
+  try {
+    await runTool("swiftlint", ["--typo-to-make-command-fail"], "binny-tools.yml")
+  } catch {
+    didThrowError = true
+  }
+
+  assertEquals(didThrowError, true)
+})
