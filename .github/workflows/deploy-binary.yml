@@ -35,7 +35,7 @@ jobs:
           mv binny binny-linux-x86_64
 
       - name: Create a git tag 'latest' and a GitHub release 'latest' to attach compiled binary to. 
-        uses: ncipollo/release-action@v1
+        uses: ncipollo/release-action@440c8c1cb0ed28b9f43e4d1d670870f059653174 # v1.16.0
         with:
           artifacts: "binny-macos-m1,binny-linux-x86_64,binny-macos-x86_64" # upload these binary files to the release so team members can easily download it. 
           tag: "latest" # create a git tag 'latest'
